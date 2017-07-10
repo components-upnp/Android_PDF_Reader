@@ -9,16 +9,20 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.mkostiuk.android_pdf_reader.upnp.Etat;
 import com.example.mkostiuk.android_pdf_reader.upnp.ServiceUpnp;
 import com.joanzapata.pdfview.PDFView;
 
 import org.fourthline.cling.android.AndroidUpnpServiceImpl;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import xdroid.toaster.Toaster;
 
@@ -111,6 +115,31 @@ public class App extends AppCompatActivity implements com.joanzapata.pdfview.lis
         display(SAMPLE_FILE, true);
 
 
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                service.getRecorderLocalService().getManager().getImplementation()
+                        .getPropertyChangeSupport().addPropertyChangeListener(
+                        new PropertyChangeListener() {
+                            @Override
+                            public void propertyChange(PropertyChangeEvent evt) {
+                                if (evt.getPropertyName().equals("status")) {
+                                    Etat etat = (Etat) evt.getNewValue();
+
+                                    switch (etat) {
+                                        case GAUCHE:
+                                            pdfView.jumpTo(pdfView.getCurrentPage() - 1);
+                                            break;
+                                        case DROITE:
+                                            pdfView.jumpTo(pdfView.getCurrentPage() + 1);
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                );
+            }
+        }, 5000);
 
     }
 

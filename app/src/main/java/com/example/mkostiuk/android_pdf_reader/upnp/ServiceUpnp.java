@@ -55,7 +55,7 @@ public class ServiceUpnp {
         };
     }
 
-    private LocalService<VisionneuseService> getRecorderLocalService() {
+    public LocalService<VisionneuseService> getRecorderLocalService() {
 
         if (upnpService == null)
             return null;
