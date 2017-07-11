@@ -136,7 +136,6 @@ public class App extends AppCompatActivity implements OnPageChangeListener {
                                             );
                                             break;
                                         case DROITE:
-                                            System.err.println("DROITE DROITE");
                                             runOnUiThread(
                                                     new Runnable() {
                                                         @Override

@@ -21,11 +21,11 @@ public class VisionneuseDevice {
 
     static LocalDevice createDevice(UDN udn) throws ValidationException {
         DeviceType type =
-                new UDADeviceType("VisionneusePdf", 1);
+                new UDADeviceType("VisionneusePDF", 1);
 
         DeviceDetails details =
                 new DeviceDetails(
-                        "Visionneuse Pdf",
+                        "Visionneuse PDF",
                         new ManufacturerDetails("IRIT"),
                         new ModelDetails("AndroidController", "Lit des fichiers PDF", "v1")
                 );
