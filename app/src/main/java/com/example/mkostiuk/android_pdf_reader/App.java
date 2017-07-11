@@ -6,15 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.StrictMode;
-import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 import com.example.mkostiuk.android_pdf_reader.upnp.Etat;
 import com.example.mkostiuk.android_pdf_reader.upnp.ServiceUpnp;
@@ -71,7 +66,7 @@ public class App extends AppCompatActivity implements OnPageChangeListener {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 //Cela signifie que la permission à déjà était
-                //demandé et l'utilisateur l'a refusé
+                //demandée et l'utilisateur l'a refusée
                 //Vous pouvez aussi expliquer à l'utilisateur pourquoi
                 //cette permission est nécessaire et la redemander
                 Toaster.toast("Vous avez refusé l'accés au Stockage, fermeture");
