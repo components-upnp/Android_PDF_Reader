@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+    compile 'com.github.barteksc:android-pdf-viewer:2.7.0-beta.1'
     compile 'com.shamanland:xdroid-toaster:0.0.10'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

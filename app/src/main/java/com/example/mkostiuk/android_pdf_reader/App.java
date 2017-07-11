@@ -6,15 +6,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.example.mkostiuk.android_pdf_reader.upnp.Etat;
 import com.example.mkostiuk.android_pdf_reader.upnp.ServiceUpnp;
-import com.joanzapata.pdfview.PDFView;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
 import org.fourthline.cling.android.AndroidUpnpServiceImpl;
 
@@ -28,7 +34,7 @@ import xdroid.toaster.Toaster;
 
 import static java.lang.String.format;
 
-public class App extends AppCompatActivity implements com.joanzapata.pdfview.listener.OnPageChangeListener {
+public class App extends AppCompatActivity implements OnPageChangeListener {
 
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1;
 
@@ -85,9 +91,6 @@ public class App extends AppCompatActivity implements com.joanzapata.pdfview.lis
     }
 
     public void init() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
 
         File dir;
         System.err.println(Build.BRAND);
@@ -110,7 +113,7 @@ public class App extends AppCompatActivity implements com.joanzapata.pdfview.lis
                 service.getService(),
                 Context.BIND_AUTO_CREATE);
 
-        pdfView = (PDFView) findViewById(R.id.pdfview);
+        pdfView = (PDFView) findViewById(R.id.pdfView);
 
         display(SAMPLE_FILE, true);
 
@@ -128,10 +131,25 @@ public class App extends AppCompatActivity implements com.joanzapata.pdfview.lis
 
                                     switch (etat) {
                                         case GAUCHE:
-                                            pdfView.jumpTo(pdfView.getCurrentPage() - 1);
+                                            runOnUiThread(
+                                                    new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            pdfView.jumpTo(pdfView.getCurrentPage() - 1);
+                                                        }
+                                                    }
+                                            );
                                             break;
                                         case DROITE:
-                                            pdfView.jumpTo(pdfView.getCurrentPage() + 1);
+                                            System.err.println("DROITE DROITE");
+                                            runOnUiThread(
+                                                    new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            pdfView.jumpTo(pdfView.getCurrentPage() + 1);
+                                                        }
+                                                    }
+                                            );
                                             break;
                                     }
                                 }
@@ -152,6 +170,8 @@ public class App extends AppCompatActivity implements com.joanzapata.pdfview.lis
         pdfView.fromAsset(assetFileName)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .enableAnnotationRendering(true)
                 .load();
     }
 
