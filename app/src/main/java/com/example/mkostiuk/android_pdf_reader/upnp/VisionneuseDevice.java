@@ -34,7 +34,7 @@ public class VisionneuseDevice {
                 new AnnotationLocalServiceBinder().read(VisionneuseService.class);
 
         service.setManager(
-                new DefaultServiceManager<VisionneuseService>(service, VisionneuseService.class)
+                new DefaultServiceManager<>(service, VisionneuseService.class)
         );
 
         return new LocalDevice(
